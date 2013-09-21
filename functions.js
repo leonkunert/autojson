@@ -42,8 +42,15 @@ $( function () {
   });
 
   $('.lines').on('click', '.addSubline', function() {
-    $('#linevalue'+counter.count).hide(); 
-    var level = parseInt($(this).data('level'))+1;
+    var level = parseInt($(this).data('level'))+1,
+      _counter = parseInt($(this).data('counter'))+1;
+    if(counter.count == _counter) {
+      $('#linevalue'+counter.oneLess()).hide();
+    }
+    console.log(this);
+    console.log(counter.count);
+    console.log(_counter);
+    console.log(level);
     line($(this).parent(), 'after', counter, level);
     event.stopPropagation();
   });
@@ -56,6 +63,9 @@ $( function () {
     this.incrmentByValue = function(value) {
       this.count = this.count + (value);
     }
+    this.oneLess = function() {
+      return (this.count-1);
+    }
   }
 
   function inputToText(){
@@ -64,7 +74,7 @@ $( function () {
         text = $this.val();
       $this.hide();
       if(text == "") {
-        text = 'undefiened';
+        text = 'undefined';
       }
       $( 'div#'+$this.attr('id') ).text(text).fadeIn(400);
     });
