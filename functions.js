@@ -5,7 +5,8 @@ $( function () {
     var html = '<div data-level="'+level+'" style="padding-left:'+(level*8)+'px;" class="clear">'
                 +'<div class="linekey" id="linekey'+counter.count+'">Key'+counter.count+'</div>'
                 +'<div><input id="linekey'+counter.count+'" /></div>'
-                +'<div data-level="'+level+'" data-counter="'+counter.count+'" id="addSubline'+counter.count+'" class="addSubline button">+</div>'
+                +'<div data-level="'+level+'" data-counter="'+counter.count+'" id="addSubline'+
+                    counter.count+'" class="addSubline button">+</div>'
                 +'<div class="linevalue" id="linevalue'+counter.count+'">Value'+counter.count+'</div>'
                 +'<div><input class="linevalue" id="linevalue'+counter.count+'" value="Hello"/></div>'
               +'</div>';
