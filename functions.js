@@ -1,6 +1,6 @@
 $( function () {
-  var counter = new counter();
-
+  var counter = new counter(),
+    $lines = $('.lines');
   function line(selector, position, counter, level) {
     var html = '<div data-level="'+level+'" style="padding-left:'+(level*8)+'px;" class="clear">'
                 +'<div class="linekey" id="linekey'+counter.count+'">Key'+counter.count+'</div>'
@@ -18,12 +18,12 @@ $( function () {
     counter.increment();
   }
 
-  $( '.addLine' ).on( 'click', function(){
-    line($('.lines'), 'append', counter, 0);
+  $( '.addLine' ).on( 'click', function(event){
+    line($lines, 'append', counter, 0);
     event.stopPropagation();
   });
 
-  $('.lines').on('click', '.linevalue', function() {
+  $lines.on('click', '.linevalue', function(event) {
       var $this = $(this),
         id = $(this).attr('id'),
         input = $('input#'+id);
@@ -32,7 +32,7 @@ $( function () {
       event.stopPropagation();
   });
 
-  $('.lines').on('click', '.linekey', function() {
+  $lines.on('click', '.linekey', function(event) {
       var $this = $(this),
         id = $(this).attr('id'),
         input = $('input#'+id);
@@ -41,16 +41,12 @@ $( function () {
       event.stopPropagation();
   });
 
-  $('.lines').on('click', '.addSubline', function() {
+  $lines.on('click', '.addSubline', function(event) {
     var level = parseInt($(this).data('level'))+1,
       _counter = parseInt($(this).data('counter'))+1;
     if(counter.count == _counter) {
       $('#linevalue'+counter.oneLess()).hide();
     }
-    console.log(this);
-    console.log(counter.count);
-    console.log(_counter);
-    console.log(level);
     line($(this).parent(), 'after', counter, level);
     event.stopPropagation();
   });
@@ -80,42 +76,30 @@ $( function () {
     });
   }
 
-  /*  function nextField(){
-    $this = $('input:visible');
-    if($this.length == 1) {
-      $this.each(function() {
-        if($(this).attr('id').indexOf('linekey') != -1) {
-          console.log($(this).next('.linevalue'));
-        }
-        if($(this).attr('id').indexOf('linevalue') != -1) {
-          console.log($(this).next('.linekey'));
-        }
-      });
-    }
-  }*/
-
   function constructJson() {
-
+    console.log('Make Json');
+    console.log($lines);
+    $('div.lines .clear')
   }
 
-  $('html').on('keydown',function(e){
-    if(e.keyCode == 13 || e.charCode == 13){
+  $('html').on('keydown', function(event){
+    if(event.keyCode == 13 || event.charCode == 13){
       $(this).click();
     }
-    if(e.keyCode == 9) {
+    if(event.keyCode == 9) {
       $(this).click();
     }
   });
 
   $('.json').on('click', function(){
-    console.log('Make Json');
+    constructJson();
   });
 
-  $('input').on('click', function(){
+  $('input').on('click', function(event){
     event.stopPropagation();
   });
 
-  $('.lines').on('click', function(){
+  $lines.on('click', function(event){
     event.stopPropagation();
   });
 
