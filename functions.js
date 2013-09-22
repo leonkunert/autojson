@@ -43,11 +43,9 @@ $( function () {
 
   $lines.on('click', '.addSubline', function(event) {
     var level = parseInt($(this).data('level'))+1,
-      _counter = parseInt($(this).data('counter'))+1;
-    if(counter.count == _counter) {
-      $('#linevalue'+counter.oneLess()).hide();
-    }
-    line($(this).parent(), 'after', counter, level);
+      $clear = $(this).parent();
+    $clear.children('.linevalue').hide();
+    line($clear, 'after', counter, level);
     event.stopPropagation();
   });
 
@@ -78,7 +76,10 @@ $( function () {
 
   function constructJson() {
     console.log('Make Json');
-    console.log($lines);
+    $lines.children().each(function(index, val) {
+        console.log(val);
+    });
+    //console.log($lines.children());
     $('div.lines .clear')
   }
 
