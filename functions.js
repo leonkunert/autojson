@@ -34,19 +34,19 @@ $( function () {
   });
 
   $lines.on('click', '.linekey', function(event) {
-      var $this = $(this),
-        id = $(this).attr('id'),
-        input = $('input#'+id);
-      $this.hide();
-      input.val($this.html()).fadeIn(400);
-      event.stopPropagation();
+    var $this = $(this),
+      id = $(this).attr('id'),
+      input = $('input#'+id);
+    $this.hide();
+    input.val($this.html()).fadeIn(400);
+    event.stopPropagation();
   });
 
   $lines.on('click', '.addSubline', function(event) {
     var level = parseInt($(this).data('level'))+1,
       $clear = $(this).parent();
     $clear.children('.linevalue').hide();
-    line($clear, 'after', counter, level);
+    line($clear, 'append', counter, level); // maybe better after than append???
     event.stopPropagation();
   });
 
@@ -76,12 +76,38 @@ $( function () {
   }
 
   function constructJson() {
-    console.log('Make Json');
+    var returnObj = {},
+      level = 0,
+      $val;
     $lines.children().each(function(index, val) {
-        console.log(val);
+      $val = $(val);
+      var linekey,
+        linevalue;
+      if(level == $val.data('level')) {
+        $.extend(returnObj, objectifyed($val, linevalue, linekey, returnObj));
+      }
     });
-    //console.log($lines.children());
-    $('div.lines .clear')
+    console.log(returnObj);
+    //$('div.lines .clear')
+  }
+
+  function objectifyed(line, linevalue, linekey, returnObj) {
+    var _returnObj = {};
+    // If it has more Children
+    console.log(returnObj);
+    if(line.children('.clear').length) {
+      console.log('has Children');
+      for (var i = 0; i < line.children('.clear').length; i++) {
+        linekey = $(line.children('.linekey')[i]).text();
+        linevalue = $(line.children('.linevalue')[i]).text();
+        returnObj[linekey] = objectifyed($(line.children('.clear')[i]), linevalue, linekey, _returnObj);
+      }
+    } else { //if it has a value that is not an other line
+      linekey = line.children('.linekey').text();
+      linevalue = line.children('.linevalue').text();
+      _returnObj[linekey] = linevalue;
+      return _returnObj;
+    }
   }
 
   $('html').on('keydown', function(event){
