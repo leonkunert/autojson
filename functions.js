@@ -99,12 +99,16 @@ $( function () {
       for (var i = 0; i < line.children('.clear').length; i++) {
         linekey = $(line.children('.linekey')[i]).text();
         linevalue = $(line.children('.linevalue')[i]).text();
+        console.log(linevalue);
         returnObj[linekey] = objectifyed($(line.children('.clear')[i]), linevalue, linekey, _returnObj);
       }
+      console.log(returnObj);
+      return returnObj;
     } else { //if it has a value that is not an other line
       linekey = line.children('.linekey').text();
       linevalue = line.children('.linevalue').text();
       _returnObj[linekey] = linevalue;
+      console.log(linevalue);
       return _returnObj;
     }
   }
