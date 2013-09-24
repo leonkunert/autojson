@@ -84,32 +84,29 @@ $( function () {
       var linekey,
         linevalue;
       if(level == $val.data('level')) {
-        $.extend(returnObj, objectifyed($val, linevalue, linekey, returnObj));
+        $.extend(returnObj, objectifyed($val, linevalue, linekey, {}));
       }
     });
-    console.log(returnObj);
-    //$('div.lines .clear')
+    $('div.output').html('Output: '+JSON.stringify(returnObj));
   }
 
   function objectifyed(line, linevalue, linekey, returnObj) {
     var _returnObj = {};
     // If it has more Children
-    console.log(returnObj);
     if(line.children('.clear').length) {
-      console.log('has Children');
       for (var i = 0; i < line.children('.clear').length; i++) {
-        linekey = $(line.children('.linekey')[i]).text();
-        linevalue = $(line.children('.linevalue')[i]).text();
-        console.log(linevalue);
-        returnObj[linekey] = objectifyed($(line.children('.clear')[i]), linevalue, linekey, _returnObj);
+        if ( i == 0 ) {
+          linekey = $(line.children('.linekey')[i]).text();
+          linevalue = $(line.children('.linevalue')[i]).text();
+          _returnObj[linekey] = {};
+        }
+        $.extend(_returnObj[linekey], objectifyed( $(line.children('.clear')[i]), linevalue, linekey, {} ));
       }
-      console.log(returnObj);
-      return returnObj;
+      return _returnObj;
     } else { //if it has a value that is not an other line
       linekey = line.children('.linekey').text();
       linevalue = line.children('.linevalue').text();
       _returnObj[linekey] = linevalue;
-      console.log(linevalue);
       return _returnObj;
     }
   }
